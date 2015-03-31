@@ -1,5 +1,5 @@
 TEMPLATE = subdirs
-
+OTHER_FILES += common.pri
 SUBDIRS += \
     ProjectA \
     ProjectB \

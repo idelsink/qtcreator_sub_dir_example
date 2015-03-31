@@ -1,4 +1,8 @@
+PROJECT_NAME    = SubTestProject
+PROJECT_BUILD   = SubTestProjectBuilds
+
 CONFIG += C++11
+
 
 # This function sets up the dependencies for libraries that are built with
 # this project. Specify the project you need to depend on in the variable
@@ -26,7 +30,7 @@ for(dep, DEPENDENCY_PROJECT) {
         CONFIG += ProjectDir
         message(Class: $$dep)
         # Adds the wanted lib to the linker
-        win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../../SubTestProjectBuilds/$${LATEST_DIRECTORY}/release/ -l$${dep}
-        else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../../SubTestProjectBuilds/$${LATEST_DIRECTORY}/debug/ -l$${dep}
+        win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../../PROJECT_BUILD/$${LATEST_DIRECTORY}/release/ -l$${dep}
+        else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../../PROJECT_BUILD/$${LATEST_DIRECTORY}/debug/ -l$${dep}
     }
 }
