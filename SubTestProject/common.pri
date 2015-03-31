@@ -10,7 +10,8 @@ CONFIG += C++11
 #eg: I want to use from projectX, lib LibA
 #    DEPENDENCY_PROJECT = projectX libA
 LATEST_DIRECTORY = 0                #latest dir name
-PATH = 0                            #The path
+PATH = 0                            #The path to the project dir
+LIB_PATH = 0                        #The path to the LIB
 CONFIG += ProjectDir                #what variable comes first
 
 for(dep, DEPENDENCY_PROJECT) {
@@ -28,9 +29,10 @@ for(dep, DEPENDENCY_PROJECT) {
         PRE_TARGETDEPS += $$PATH
     }else{
         CONFIG += ProjectDir
-        message(Class: $$dep)
+        LIB_PATH = $$OUT_PWD/../../$${PROJECT_BUILD}/$${LATEST_DIRECTORY}
+        message(Lib: $$dep in location: $$LIB_PATH)
         # Adds the wanted lib to the linker
-        win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../../PROJECT_BUILD/$${LATEST_DIRECTORY}/release/ -l$${dep}
-        else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../../PROJECT_BUILD/$${LATEST_DIRECTORY}/debug/ -l$${dep}
+        win32:CONFIG(release, debug|release): LIBS += -L$${LIB_PATH}/release/ -l$${dep}
+        else:win32:CONFIG(debug, debug|release): LIBS += -L$${LIB_PATH}/debug/ -l$${dep}
     }
 }
