@@ -1,5 +1,5 @@
 #set the dependency's
-DEPENDENCY_PROJECT += interfaceX interfaceX# driverX driverX
+DEPENDENCY_PROJECT += interfaceX interfaceX driverX driverX
 
 # Check if the config file exists
 ! include( ../common.pri ) {
