@@ -1,6 +1,6 @@
 #set the dependency's
-#DEPENDENCY_PROJECT +=
-
+DEPENDENCY_PROJECT += interfaceXY interfaceXY
+DEPENDENCY_PROJECT += driverY driverY
 # Check if the config file exists
 ! include( ../common.pri ) {
     error( "projectC Couldn't find the common.pri file!" )
