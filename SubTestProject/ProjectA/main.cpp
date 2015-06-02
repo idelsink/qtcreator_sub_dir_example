@@ -1,13 +1,12 @@
 #include <iostream>
-#include "classa.h"
-#include "classb.h"
+#include "interfacex.h"
 using namespace std;
 
 int main()
 {
     cout << "Project A" << endl;
-    ClassA classa;
-    ClassB classb;
+    cout << "This projects needs interface x" << endl;
+    interfaceX InterfaceX;
     return 0;
 }
 

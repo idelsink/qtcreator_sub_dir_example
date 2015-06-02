@@ -1,19 +1,16 @@
+#set the dependency's
+#DEPENDENCY_PROJECT +=
+
 # Check if the config file exists
 ! include( ../common.pri ) {
-    error( "Couldn't find the common.pri file!" )
+    error( "projectC Couldn't find the common.pri file!" )
 }
 
-TARGET = ClassC         #Name of application
-TEMPLATE = lib          #Needs to be lib NOT app
-CONFIG += staticlib
-
+TARGET = projectC
+TEMPLATE = app
 CONFIG += console
 CONFIG -= app_bundle
 CONFIG -= qt
 
-SOURCES += \
-    classc.cpp
-
-HEADERS += \
-    classc.h
+SOURCES += main.cpp
 

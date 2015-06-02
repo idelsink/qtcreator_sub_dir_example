@@ -1,11 +1,18 @@
 TEMPLATE = subdirs
 OTHER_FILES += common.pri
 SUBDIRS += \
-    ProjectA \
-    ProjectB \
-    testProjectB \
-    ProjectC
-
-ProjectA.depends = ProjectB
-testProjectB.depends = ProjectB
-testProjectB.depends = ProjectC
+    driverX \
+    driverY \
+    interfaceX \
+    interfaceXY \
+    projectA \
+    projectB \
+    projectC
+TEMPSTRING = 0
+#DEFINES += MYVAR=\"\\\"myvarvalue\\\"\"
+#VERSION = 3-alpha-10.2
+#DEFINES += FOO_VERSION=\\\"$$VERSION\\\"
+#message(Main pro: MyVar: $${VERSION})
+#projectA.depends = interfaceX
+#testProjectB.depends = ProjectB
+#testProjectB.depends = ProjectC
