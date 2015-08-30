@@ -1,64 +1,69 @@
-PROJECT_NAME    = SubTestProject
-PROJECT_BUILD   = SubTestProjectBuilds
-
+# Turn on C++11, this is not necessary.
+# It's just handy to have it ready
 CONFIG += c++11
 
+# [Library Dependencies]
+# Often when linking against a library, qmake relies on the underlying platform to know what other libraries this library links against,
+# and lets the platform pull them in. In many cases, however, this is not sufficent. For example, when statically linking a library,
+# no other libraries are linked to, and therefore no dependencies to those libraries are created.
+# However, an application that later links against this library will need to know where to find the symbols that the static library will require.
+# To help with this situation, qmake attempts to follow a library's dependencies where appropriate, but this behavior must be explicitly enabled by following two steps.
+# The first step is to enable dependency tracking in the library itself. To do this you must tell qmake to save information about the library:
+CONFIG += create_prl
+# This is only relevant to the lib template, and will be ignored for all others. When this option is enabled, qmake will create a file ending in .prl
+# which will save some meta-information about the library. This metafile is just like an ordinary project file, but only contains internal variable declarations.
+# You are free to view this file and, if it is deleted, qmake will know to recreate it when necessary, either when the project file is later read,
+# or if a dependent library (described below) has changed. When installing this library, by specifying it as a target in an INSTALLS declaration,
+# qmake will automatically copy the .prl file to the installation path.
+# The second step in this process is to enable reading of this meta information in the applications that use the static library:
+CONFIG += link_prl
 
-# This function sets up the dependencies for libraries that are built with
-# this project. Specify the project you need to depend on in the variable
-# DEPENDENCY_PROJECT and specify the lib with it and this will add those
-#eg: I want to use from projectX, lib LibA
-#    DEPENDENCY_PROJECT = projectX libA
+# [Usage for this macro]
+# These two functions sets up the dependencies for libraries that are build with
+# this project. Specify the lib you need to depend on in the variable "DEPENDENCY_PROJECT".
+# Make sure that the library project name and target are the same!
+# eg: I want to use target DriverX and DriverY in my qt project.
+#   DEPENDENCY_PROJECT += projectX
+#   DEPENDENCY_PROJECT += projectY
+#   Or
+#   DEPENDENCY_PROJECT += projectX projectY
 TARGET_DIRECTORY_NAME = 0           #The target directory name (just the project folder name)
 TARGET_PATH = 0                     #The path to the project directory from the root folder
 LIB_PATH = 0                        #The path to the LIB
-#CONFIG += ProjectDir                #what variable comes first
+
+# [The MACRO]
+# The "dep" variable that is used in these two for loops will hold the paramaters from the DEPENDENCY_PROJECT.
+# From the example above this would hold projectX and projectY (a litteral string)
+# Now this function will loop through all the parameters
+
+# [Setup the Dependencies]
 for(dep, DEPENDENCY_PROJECT) {
-    contains(CONFIG,ProjectDir$${TARGET}$${dep}){    #first the directory to the wanted target(the project folder that you want to use)
-        CONFIG -= ProjectDir$${TARGET}$${dep}
-        LIB_PATH = $${OUT_PWD}/../../$${PROJECT_BUILD}/$${TARGET_DIRECTORY_NAME}
-        message(Target: $${dep} in location: $${LIB_PATH})#
-        # Adds the wanted lib to the linker
-        win32:CONFIG(release, debug|release): LIBS += -L$${LIB_PATH}/release/ -l$${dep}
-        else:win32:CONFIG(debug, debug|release): LIBS += -L$${LIB_PATH}/debug/ -l$${dep}
-        #.depends
-        $${TARGET}.depends += $${dep}
-        message(end $${TARGET} ------)#container end
-    }else{#the target
-        message(------ Start $${TARGET} ------)
-        TARGET_DIRECTORY_NAME = $$dep
-        TARGET_PATH = $${PWD}/$${TARGET_DIRECTORY_NAME}
-        message($${TARGET} depends on: $${dep})
-        #message(Target path: $${TARGET_PATH})
-        CONFIG += ProjectDir$${TARGET}$${dep}
-        #Adds the wanted project to the project.
-        INCLUDEPATH += $${TARGET_PATH}
-        #message(Include path: $$TARGET_PATH)
-        DEPENDPATH += $${TARGET_PATH}      #force rebuild if the headers change
-        #message(depenth path: $$DEPENDPATH)
-        PRE_TARGETDEPS += $${TARGET_PATH}
-        #message(tempstring: $${MYVAR})
-        # = $${TARGET}
-    }
+    TARGET_NAME = $${dep} # The name of the depending target
+    message($${TARGET}.depends = $${TARGET_NAME})
+    $${TARGET}.depends += $${TARGET_NAME}
 }
-#PROPERTY = prop
-#VALUE = value
-#qmake -set PROPERTY VALUE
+# [setup the actual library dependencies]
+for(dep, DEPENDENCY_PROJECT) {
+    TARGET_NAME = $${dep}                       # The name of the depending target
+    TARGET_PATH = $${PWD}/$${TARGET_NAME}       # The path to the depending target source
+    LIB_PATH = $${OUT_PWD}/../$${TARGET_NAME}   # The path to the depending compiled target
+    #message(Depending target \"$${TARGET_NAME}\" source path: $${TARGET_PATH})
+    #message(Depending target \"$${TARGET_NAME}\" compiled path: $${LIB_PATH})
 
-#qmake -query "QT_INSTALL_PREFIX"
+    # Adds the wanted lib to the linker
+    win32:CONFIG(release, debug|release): LIBS += -L$${LIB_PATH}/release/ -l$${TARGET_NAME}
+    else:win32:CONFIG(debug, debug|release): LIBS += -L$${LIB_PATH}/debug/ -l$${TARGET_NAME}
 
-#message(dir name: $$dirname(_QMAKE_CACHE_QT4_))
-#QMAKE_CONFIG_LOG = $$dirname(_QMAKE_CACHE_QT4_)/config.log
-#msg = "test FAILED"
-#write_file($$QMAKE_CONFIG_LOG, msg, append)
+    # Adds the wanted lib to the project.
+    INCLUDEPATH += $${TARGET_PATH}
+    #message(INCLUDEPATH: $${INCLUDEPATH})
 
-#QMAKE_CONFIG_LOG = $$dirname(_QMAKE_CACHE_QT4_)/config.log
-#msg = "test $$1 succeeded"
-#write_file($$QMAKE_CONFIG_LOG, msg, append)
-#write_file($$QMAKE_CONFIG_LOG)
-#file_path = $${OUT_PWD}/../
-#content = test
-#write_file($$file_path, temp, $$content)
-#message(write in file $${file_path} this: $${content})
-#set(CMAKE_AUTOMOC ON)
-#file(WRITE filename "message to write"... )
+    # Adds a dependpath to the project
+    # This forces a rebuild if the headers change
+    DEPENDPATH += $${TARGET_PATH}
+    #message(DEPENDPATH: $${DEPENDPATH})
+
+    #Pre target
+    PRE_TARGETDEPS += $${TARGET_PATH}
+    #message(PRE_TARGETDEPS: $${PRE_TARGETDEPS})
+}

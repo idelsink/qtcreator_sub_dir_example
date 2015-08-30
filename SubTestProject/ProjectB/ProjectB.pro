@@ -1,5 +1,5 @@
 #set the dependency's
-DEPENDENCY_PROJECT += interfaceXY interfaceXY
+DEPENDENCY_PROJECT += interfaceXY
 
 # Check if the config file exists
 ! include( ../common.pri ) {
@@ -10,7 +10,7 @@ TARGET = projectB
 TEMPLATE = app
 CONFIG += console
 CONFIG -= app_bundle
-CONFIG -= qt
+CONFIG += qt #+ for the qThread delay
 
 SOURCES += main.cpp
 

@@ -1,4 +1,5 @@
-DEPENDENCY_PROJECT += driverY driverY
+DEPENDENCY_PROJECT += driverX
+DEPENDENCY_PROJECT += driverY
 
 # Check if the config file exists
 ! include( ../common.pri ) {
@@ -13,7 +14,7 @@ CONFIG += console
 CONFIG -= app_bundle
 CONFIG -= qt
 
-SOURCES += main.cpp \
+SOURCES += \
     interfacexy.cpp
 
 HEADERS += \

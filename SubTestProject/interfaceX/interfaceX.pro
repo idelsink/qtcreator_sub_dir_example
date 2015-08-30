@@ -1,4 +1,4 @@
-DEPENDENCY_PROJECT += driverX driverX
+DEPENDENCY_PROJECT += driverX
 
 # Check if the config file exists
 ! include( ../common.pri ) {
