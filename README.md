@@ -13,4 +13,4 @@ When something changes in `driverX`, and you build `projectX`, `driverX` will be
 To **solve** this, the user could do a clean and build or just remove the build files and build it again. I'm working on a solution for this. Untill then, clean and rebuild. :D
 
 # License
-This project is licensed under the GNU GENERAL PUBLIC LICENSE. See the LICENSE.txt file for more information.
+This project is licensed under the [GNU GENERAL PUBLIC LICENSE](http://www.gnu.org/licenses/licenses.html). See the [LICENSE](LICENSE.md) file for more information.
