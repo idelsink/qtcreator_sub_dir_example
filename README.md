@@ -12,5 +12,7 @@ When, for example, `projectX` has a dependency on `driverX` and `driverX` has a 
 When something changes in `driverX`, and you build `projectX`, `driverX` will be rebuild because it was changed. However if we change something in `driverY` and we build `ProjectX`, `driverX` with a dependency on `driverY` will not be rebuild. `driverY` will be rebuild, but those changes wont affect `driverX`.  
 To **solve** this, the user could do a clean and build or just remove the build files and build it again. I'm working on a solution for this. Untill then, clean and rebuild. :D
 
-# License
-This project is licensed under the [GNU GENERAL PUBLIC LICENSE](http://www.gnu.org/licenses/licenses.html). See the [LICENSE](LICENSE.md) file for more information.
+## License
+>You can check out the full license [here](https://github.com/MrCrazyID/QtCreator_SubDirExample/blob/master/LICENSE)
+
+This project is licensed under the terms of the **MIT** license.
