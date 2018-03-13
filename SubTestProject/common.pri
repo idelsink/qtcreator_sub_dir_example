@@ -51,8 +51,11 @@ for(dep, DEPENDENCY_PROJECT) {
     #message(Depending target \"$${TARGET_NAME}\" compiled path: $${LIB_PATH})
 
     # Adds the wanted lib to the linker
+    # Windows
     win32:CONFIG(release, debug|release): LIBS += -L$${LIB_PATH}/release/ -l$${TARGET_NAME}
     else:win32:CONFIG(debug, debug|release): LIBS += -L$${LIB_PATH}/debug/ -l$${TARGET_NAME}
+    # UNIX
+    unix: LIBS += -L$${LIB_PATH}/ -l$${TARGET_NAME}
 
     # Adds the wanted lib to the project.
     INCLUDEPATH += $${TARGET_PATH}
