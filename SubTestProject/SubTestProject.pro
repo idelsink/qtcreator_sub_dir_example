@@ -25,6 +25,6 @@ SUBDIRS += \
     driverY \
     interfaceX \
     interfaceXY \
-    projectA \
-    projectB \
-    projectC
+    ProjectA \
+    ProjectB \
+    ProjectC
